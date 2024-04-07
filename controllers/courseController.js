@@ -88,13 +88,43 @@ const courseController = {
         }
     },
 
-    // Controller function to get a list of all courses
-    getAllCourses: async (req, res) => {
+    // Controller function to get a list of all courses with filters and pagination
+    getCourses: async (req, res) => {
         try {
-            // Fetch all courses
-            const courses = await Course.findAll();
+            // Extract filtering and pagination options from query parameters
+            const { category, level, popularity, page = 1, limit = 10 } = req.query;
 
-            res.status(200).json({ courses: courses });
+            // Construct options object based on provided parameters
+            const options = {};
+            if (category) {
+                options.category = category;
+            }
+            if (level) {
+                options.level = level;
+            }
+            if (popularity) {
+                options.popularity = popularity;
+            }
+
+            // Calculate offset and limit for pagination
+            const offset = (page - 1) * limit;
+
+            // Fetch paginated courses based on filtering options
+            const courses = await Course.findAndCountAll({
+                where: options,
+                limit: parseInt(limit),
+                offset: offset
+            });
+
+            // Calculate total number of pages
+            const totalPages = Math.ceil(courses.count / limit);
+
+            res.status(200).json({
+                totalCourses: courses.count,
+                totalPages: totalPages,
+                currentPage: parseInt(page),
+                courses: courses.rows
+            });
         } catch (error) {
             console.error('Error fetching courses:', error);
             res.status(500).json({ message: 'Internal server error' });

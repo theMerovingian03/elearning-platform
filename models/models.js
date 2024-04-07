@@ -38,7 +38,31 @@ const Course = sequelize.define('Course', {
     level: { type: DataTypes.STRING }
 });
 
+const Enrollment = sequelize.define('Enrollment', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    // Define foreign key for user
+    UserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    // Define foreign key for course
+    CourseId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    // Additional attributes related to enrollment
+    enrollmentDate: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+    }
+});
+
 module.exports = {
     User: User,
-    Course: Course
+    Course: Course,
+    Enrollment: Enrollment
 }

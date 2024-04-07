@@ -14,4 +14,10 @@ router.get('/:userId/profile', UserController.getUserProfile);
 // Route for updating user profile
 router.put('/:userId/profile', UserController.updateUserProfile);
 
+// Route for enrolling in a course
+router.post('/:userId/enroll/:courseId', UserController.enrollCourse);
+
+// Route for viewing enrolled courses
+router.get('/:userId/enrolled-courses', UserController.getEnrolledCourses);
+
 module.exports = router;

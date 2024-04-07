@@ -1,5 +1,3 @@
-// courseRoutes.js
-
 const express = require('express');
 const router = express.Router();
 const CourseController = require('../controllers/courseController');
@@ -14,7 +12,7 @@ router.put('/:id', authMiddleware, CourseController.updateCourse);
 // Route for deleting a course
 router.delete('/:id', authMiddleware, CourseController.deleteCourse);
 
-
-
+// Route for getting courses
+router.get('/', CourseController.getCourses);
 
 module.exports = router;

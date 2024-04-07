@@ -1,4 +1,4 @@
-const User = require('../models/models').User;
+const { User, Course, Enrollment } = require('../models/models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
@@ -96,6 +96,54 @@ const UserController = {
             res.status(200).json({ message: 'User profile updated successfully' });
         } catch (error) {
             console.error('Error in updating user profile:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    },
+    // Controller function to enroll in a course
+    enrollCourse: async (req, res) => {
+        try {
+            const userId = req.params.userId;
+            const courseId = req.params.courseId;
+
+            // Check if the user is already enrolled in the course
+            const existingEnrollment = await Enrollment.findOne({
+                where: {
+                    UserId: userId,
+                    CourseId: courseId
+                }
+            });
+
+            if (existingEnrollment) {
+                return res.status(400).json({ message: 'User is already enrolled in this course' });
+            }
+
+            // Enroll the user in the course
+            await Enrollment.create({
+                UserId: userId,
+                CourseId: courseId
+            });
+
+            res.status(200).json({ message: 'User enrolled in the course successfully' });
+        } catch (error) {
+            console.error('Error enrolling in course:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    },
+
+    // Controller function to view enrolled courses
+    getEnrolledCourses: async (req, res) => {
+        try {
+            const userId = req.params.userId;
+
+            // Fetch enrolled courses for the user
+            const enrolledCourses = await Enrollment.findAll({
+                where: { UserId: userId },
+                include: Course
+            });
+
+            res.status(200).json({ enrolledCourses });
+        } catch (error) {
+            console.error('Error fetching enrolled courses:', error);
             res.status(500).json({ message: 'Internal server error' });
         }
     }
