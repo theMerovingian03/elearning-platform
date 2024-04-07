@@ -15,6 +15,7 @@
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.4",
     "pg-hstore": "^2.3.4",
+    "resend": "^3.2.0",
     "sequelize": "^6.37.2"
   }
 }
