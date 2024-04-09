@@ -1,13 +1,14 @@
 ## E-learning Platform built using Node.js and Express.js
 This is a collection of REST APIs built using Node.js and Express.js, for managing and accessing an e-learning platform.<br>
-Before running, create a .env file within the project directory as such:
-
+Before running, create a .env file within the project directory as such:<br>
+Mention all the credentials as per your neon.tech platform subscription <br>
+ 
 <strong>.env :<strong>
 ```
 PGHOST='your_host_address'
 PGDATABASE='your_database_name'
 PGUSER='your_username'
-PGPASSWORD='************'
+PGPASSWORD='your_pg_password'
 ENDPOINT_ID='your_endpoint_id'
 RESEND_API_KEY='your_api_key_for_resend'
 SERVER_EMAIL = 'org_email_address'
