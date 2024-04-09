@@ -20,4 +20,10 @@ router.post('/:userId/enroll/:courseId', UserController.enrollCourse);
 // Route for viewing enrolled courses
 router.get('/:userId/enrolled-courses', UserController.getEnrolledCourses);
 
+// Route for sending password reset email
+router.post('/forgot-password', UserController.sendPasswordResetEmail);
+
+// Route for sending course enrollment notification email
+router.post('/:userId/enroll/:courseId', UserController.enrollCourse, UserController.sendEnrollmentNotificationEmail);
+
 module.exports = router;

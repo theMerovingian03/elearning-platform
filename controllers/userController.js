@@ -2,6 +2,11 @@ const { User, Course, Enrollment } = require('../models/models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
+const {
+    sendRegistrationConfirmationEmail,
+    sendPasswordResetEmail,
+    sendEnrollmentNotificationEmail
+} = require('../services/emailService');
 
 const UserController = {
     registerUser: async (req, res) => {
@@ -22,6 +27,9 @@ const UserController = {
                 email: email,
                 password: hashedPassword
             });
+
+            // Send registration confirmation email
+            sendRegistrationConfirmationEmail(email);
 
             res.status(201).json({ message: 'User registered successfully', user: newUser });
 
